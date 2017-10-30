@@ -4,6 +4,7 @@
       <span>Vue.js PWA</span>
     </header>
     <main>
+      <a @click="push" id="demo_button" href="#" class="button">Press to Push</a>
       <img src="./assets/logo.png" alt="Vue.js PWA">
       <router-view></router-view>
     </main>
@@ -11,8 +12,28 @@
 </template>
 
 <script>
+import Push from 'push.js'
+
+function demo () {
+  Push.create('Hello world!', {
+    body: 'How\'s it hangin\'?',
+    icon: './static/img/icons/favicon-16x16.png',
+    link: '/#',
+    timeout: 4000,
+    onClick: function () {
+      console.log('Fired!')
+      window.focus()
+      this.close()
+    },
+    vibrate: [200, 100, 200, 100, 200, 100, 200]
+  })
+}
+
 export default {
-  name: 'app'
+  name: 'app',
+  methods: {
+    push: demo
+  }
 }
 </script>
 
@@ -51,4 +72,20 @@ header span {
   box-sizing: border-box;
   padding-top: 16px;
 }
+#demo_button {
+  background-image: linear-gradient(145deg, #667eea 0%, #764ba2 100%);
+  border-radius: 100px;
+  font-weight: 400;
+  font-size: 0.75em;
+  line-height: 4em;
+  width: 20em;
+  margin: 35px auto;
+  display: block;
+  text-align: center;
+  box-shadow: 0 2px 25px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 100;
+  cursor: pointer;
+}
+
 </style>
