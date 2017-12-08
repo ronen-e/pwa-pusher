@@ -20,6 +20,7 @@ function demo () {
     icon: './static/img/icons/favicon-16x16.png',
     link: '/#',
     timeout: 4000,
+    requireInteraction: true,
     onClick: function () {
       console.log('Fired!')
       window.focus()
