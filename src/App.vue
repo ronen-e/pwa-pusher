@@ -13,6 +13,8 @@
 
 <script>
 import Push from 'push.js'
+import PushFCM from 'push-fcm-plugin'
+import firebaseConfig from './firebase.conf'
 
 function demo () {
   Push.create('Hello world!', {
@@ -34,6 +36,22 @@ export default {
   name: 'app',
   methods: {
     push: demo
+  },
+  mount() {
+    // extend push before adding configuration
+    Push.extend(PushFCM)
+    Push.config({ FCM: firebaseConfig })
+    console.log('Push', Push)
+    // Push.FCM().then(function(FCM) {
+    //   console.log('FCM', FCM);
+    //     FCM.getToken().then(function(token) {
+    //         console.log("Initialized with token " + token);
+    //     }).catch(function(tokenError) {
+    //        throw tokenError;
+    //     });
+    // }).catch(function(initError) {
+    //    throw initError;
+    // });
   }
 }
 </script>
