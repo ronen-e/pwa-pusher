@@ -1,7 +1,7 @@
 <template>
-  <form name="signup" class="signup" method="post" @submit.prevent="onSubmit" action="/signup" accept-charset="UTF-8">
+  <form name="signup" class="signup" method="post" @submit.prevent="onSubmit" action="/api/signup" >
     <label for="email">Signup with your email</label>
-    <input type="email" id="email" name="" value="" required />
+    <input type="email" id="email" name="email" value="" required />
     <button type="submit">Submit</button>
   </form>
 </template>
@@ -19,11 +19,10 @@ export default {
       const form = e.target
       const formData = new FormData(form)
       fetch(form.action, {
-        method: form.method
+        method: form.method,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `email=${formData.get('email')}`
       })
-      console.log('submit', e)
-      console.log('data', formData)
-      return true
     }
   }
 }

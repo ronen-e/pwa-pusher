@@ -7,11 +7,8 @@ router.get('*', function(req, res, next) {
   res.render('index.html');
 });
 
-router.post('/signup', function(req, res, next) {
-  const email = req.params.email;
-  // console.log('params', req.params)
-  // console.log('email', req.email)
-  res.send(email)
+router.post('/api/signup', function(req, res, next) {
+  res.send(req.body)
 })
 
 module.exports = router;

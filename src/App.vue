@@ -37,11 +37,11 @@ export default {
   methods: {
     push: demo
   },
-  mount() {
+  beforeCreate () {
     // extend push before adding configuration
+    console.log('Push', Push)
     Push.extend(PushFCM)
     Push.config({ FCM: firebaseConfig })
-    console.log('Push', Push)
     // Push.FCM().then(function(FCM) {
     //   console.log('FCM', FCM);
     //     FCM.getToken().then(function(token) {
