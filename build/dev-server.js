@@ -65,6 +65,8 @@ app.use(hotMiddleware)
 // serve pure static assets
 const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
+app.use(config.dev.assetsPublicPath, express.static('./static'))
+
 
 const uri = 'http://localhost:' + port
 

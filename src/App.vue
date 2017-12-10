@@ -39,19 +39,17 @@ export default {
   },
   beforeCreate () {
     // extend push before adding configuration
-    console.log('Push', Push)
     Push.extend(PushFCM)
-    Push.config({ FCM: firebaseConfig })
-    // Push.FCM().then(function(FCM) {
-    //   console.log('FCM', FCM);
-    //     FCM.getToken().then(function(token) {
-    //         console.log("Initialized with token " + token);
-    //     }).catch(function(tokenError) {
-    //        throw tokenError;
-    //     });
-    // }).catch(function(initError) {
-    //    throw initError;
-    // });
+    Push.config({ FCM: Object.assign({
+      sendTokenToServer(token) {
+        console.log('send token to server...', token);
+      }
+    }, firebaseConfig) })
+
+    Push.FCM()
+    .then(FCM => FCM.getToken().then(FCM.sendTokenToServer).then(FCM.getToken))
+    .then(token => { console.log("Initialized with token " + token); return token })
+    .catch(console.error)
   }
 }
 </script>
