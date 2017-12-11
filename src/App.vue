@@ -32,6 +32,12 @@ function demo () {
   })
 }
 
+function printToken(token) {
+  var message = document.createElement('div');
+  message.innerText = token;
+  document.body.appendChild(message);
+}
+
 export default {
   name: 'app',
   methods: {
@@ -41,15 +47,16 @@ export default {
     // extend push before adding configuration
     Push.extend(PushFCM)
     Push.config({ FCM: Object.assign({
-      sendTokenToServer(token) {
-        console.log('send token to server...', token);
+      sendTokenToServer (token) {
+        console.log('send token to server...', token)
       }
     }, firebaseConfig) })
 
     Push.FCM()
-    .then(FCM => FCM.getToken().then(FCM.sendTokenToServer).then(FCM.getToken))
-    .then(token => { console.log("Initialized with token " + token); return token })
-    .catch(console.error)
+      .then(FCM => FCM.getToken().then(FCM.sendTokenToServer).then(FCM.getToken))
+      .then(token => { console.log('Initialized with token ' + token); return token })
+      .then(printToken)
+      .catch(console.error)
   }
 }
 </script>
