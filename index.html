@@ -20,10 +20,24 @@
     <!-- Add to home screen for Windows -->
     <meta name="msapplication-TileImage" content="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/msapplication-icon-144x144.png">
     <meta name="msapplication-TileColor" content="#000000">
+    <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAcFpTZa-yPNnNiPXCpku6DpHKSPDkCALo",
+        authDomain: "ctpapp-e8dd3.firebaseapp.com",
+        databaseURL: "https://ctpapp-e8dd3.firebaseio.com",
+        projectId: "ctpapp-e8dd3",
+        storageBucket: "ctpapp-e8dd3.appspot.com",
+        messagingSenderId: "567338920561"
+      };
+      firebase.initializeApp(config);
+    </script>
     <% for (var chunk of webpack.chunks) {
         for (var file of chunk.files) {
           if (file.match(/\.(js|css)$/)) { %>
-    <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
+    <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>">
+    <% }}} %>
   </head>
   <body>
     <noscript>

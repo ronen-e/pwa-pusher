@@ -100,6 +100,11 @@ const webpackConfig = merge(baseWebpackConfig, {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
+      },
+      // FCM service worker
+      {
+        from: path.resolve(__dirname, '../firebase-messaging-sw.js'),
+        to: config.build.assetsRoot
       }
     ]),
     // service worker caching

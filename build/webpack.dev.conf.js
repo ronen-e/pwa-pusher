@@ -7,6 +7,7 @@ const webpack = require('webpack')
 const config = require('../config')
 const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
@@ -36,6 +37,13 @@ module.exports = merge(baseWebpackConfig, {
       serviceWorkerLoader: `<script>${fs.readFileSync(path.join(__dirname,
         './service-worker-dev.js'), 'utf-8')}</script>`
     }),
+    new CopyWebpackPlugin([
+      // FCM service worker
+      {
+        from: path.resolve(__dirname, '../firebase-messaging-sw.js'),
+        to: config.build.assetsRoot
+      }
+    ]),
     new FriendlyErrorsPlugin()
   ]
 })

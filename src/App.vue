@@ -13,8 +13,9 @@
 
 <script>
 import Push from 'push.js'
-import PushFCM from 'push-fcm-plugin'
-import firebaseConfig from './firebase.conf'
+// import PushFCM from 'push-fcm-plugin'
+// import firebaseConfig from './firebase.conf'
+import firebase from 'firebase';
 
 function demo () {
   Push.create('Hello world!', {
@@ -33,9 +34,11 @@ function demo () {
 }
 
 function printToken(token) {
-  var message = document.createElement('div');
-  message.innerText = token;
-  document.body.appendChild(message);
+  console.log('token', token)
+  var message = document.createElement('div')
+  message.innerText = token
+  document.body.appendChild(message)
+  return token;
 }
 
 export default {
@@ -44,19 +47,23 @@ export default {
     push: demo
   },
   beforeCreate () {
-    // extend push before adding configuration
-    Push.extend(PushFCM)
-    Push.config({ FCM: Object.assign({
-      sendTokenToServer (token) {
-        console.log('send token to server...', token)
-      }
-    }, firebaseConfig) })
+    const messaging = firebase.messaging();
 
-    Push.FCM()
-      .then(FCM => FCM.getToken().then(FCM.sendTokenToServer).then(FCM.getToken))
-      .then(token => { console.log('Initialized with token ' + token); return token })
-      .then(printToken)
-      .catch(console.error)
+    navigator.serviceWorker.register('./firebase-messaging-sw.js')
+    .then(registration => messaging.useServiceWorker(registration))
+    .then(messaging.requestPermission)
+    // messaging.requestPermission()
+    .then( () => console.log('Have permission'))
+    .then( () => messaging.getToken())
+    .then(printToken)
+    .catch(printToken)
+
+    messaging.onMessage(function handleMessage(payload) {
+      console.log('message', payload)
+    })
+
+    // extend push before adding configuration
+
   }
 }
 </script>
